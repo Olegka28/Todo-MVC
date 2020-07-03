@@ -4,22 +4,12 @@ export default class TodoModel {
         this.subcribers = [];
     }
 
-    subscribe(subscriber) {
-        this.subcribers.push(subscriber);
-    }
-
-    notify() {
-        this.subcribers.forEach(cb => cb(this.getState()));
-    }
-
     addTodo(item) {
         this.state.push(item);
-        this.notify()
     }
 
     deleteTodoById(id) {
         this.state = this.state.filter(item => item.id !== id);
-        this.notify()
     }
 
     updateTodo (id, name) {
@@ -27,7 +17,6 @@ export default class TodoModel {
         
         if(todo){
             todo.name = name;
-            this.notify()
         }
     }
 
@@ -36,7 +25,6 @@ export default class TodoModel {
         
         if(todo){
             todo.toggle();
-            this.notify()
         }
     }
 

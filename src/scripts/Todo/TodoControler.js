@@ -15,9 +15,20 @@ export default class TodoControler {
                 // debugger
                 this.model.deleteTodoById(id);
              }
-             this.view.render()
-        }) 
 
+             if(type === 'checked') {
+                 this.model.toggleComplete(id);
+             }
+             
+             if(type === 'update') {
+                 debugger
+                 this.model.updateTodo(id, name)
+                //  this.model.addTodo(new TodoItem(name))
+                //  this.model.deleteTodoById(id);
+             }
+
+             this.view.render()
+        })
         this.view.render()
     }
 
