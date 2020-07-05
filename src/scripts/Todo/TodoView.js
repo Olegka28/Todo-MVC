@@ -24,76 +24,78 @@ export default class TodoView {
     });
     this.todoList.append(this.li);
     this.input.value = "";
-  }
-
+  };
 
   handleTodoRemove = (e) => {
     const removeBtn = e.target.closest(".button_remove_item");
     if (removeBtn) {
       this.notify({
         id: Number(removeBtn.closest(".todo_container_items").dataset.id),
-        type: "remove"
+        type: "remove",
       });
-      removeBtn.closest(".todo_container_items").parentElement.removeChild(removeBtn.closest(".todo_container_items"));
+      removeBtn
+        .closest(".todo_container_items")
+        .parentElement.removeChild(removeBtn.closest(".todo_container_items"));
     }
-  }
+  };
 
   handleTodoChecked = (e) => {
-    const checked = e.target.closest('.input_checked')
+    const checked = e.target.closest(".input_checked");
 
-    if(checked) {
+    if (checked) {
       this.notify({
         id: Number(checked.closest(".todo_container_items").dataset.id),
-        type: "checked"
-      })
+        type: "checked",
+      });
 
-      checked.parentElement.classList.toggle('remove_item')
+      checked.parentElement.classList.toggle("remove_item");
     }
-  }
+  };
 
   handleTodoUpdateName = (e) => {
-    const text = e.target.closest('.text_todo')
-    this.updateInput = document.createElement('input')
-    this.updateBtn = document.createElement('button')
-    this.updateState = this.updateState.bind(this)
-    if(text) {
-      // this.notify({
-      //   name: text.textContent,
-      //   type: "update",
-      //   id: Number(text.closest(".todo_container_items").dataset.id),
-      // }) 
-      this.updateInput.className = 'update_input';
-      this.updateInput.setAttribute('type', 'text');
-      this.updateInput.setAttribute('value', text.textContent);
-      this.updateBtn.textContent = 'Update';
-      this.updateBtn.className = 'update_btn';
-      text.after(this.updateBtn)
-      text.after(this.updateInput)
+    const text = e.target.closest(".text_todo");
+    this.updateInput = document.createElement("input");
+    this.updateBtn = document.createElement("button");
+    this.updateState = this.updateState.bind(this);
+    if (text) {
+      this.updateInput.className = "update_input";
+      this.updateInput.setAttribute("type", "text");
+      this.updateInput.setAttribute("value", text.textContent);
+      this.updateBtn.textContent = "Update";
+      this.updateBtn.className = "update_btn";
+      text.after(this.updateBtn);
+      text.after(this.updateInput);
 
-      this.updateBtn.addEventListener('click', this.updateState)
+      this.updateBtn.addEventListener("click", this.updateState);
     }
-    // text.textContent = '';
-  }
+  };
 
   updateState = (e) => {
-    const textP = e.target.closest('.update_btn');
-    if(textP) {
-    const inputUp = document.querySelector('.update_input');
-    const inputBtn = document.querySelector('.update_btn');
+    const updateBtn = e.target.closest(".update_btn");
+    if (updateBtn) {
+      const inputUpdateOnTodoList = document.querySelector(".update_input");
+      const updateBtnOnTodoList = document.querySelector(".update_btn");
+      const todoLists = document.querySelectorAll(".todo_container_items");
+
+      todoLists.forEach((todo) => {
+        if (
+          Number(todo.dataset.id) ===
+          Number(updateBtn.closest(".todo_container_items").dataset.id)
+        ) {
+          todo.children[1].textContent = inputUpdateOnTodoList.value;
+          inputUpdateOnTodoList.value = "";
+        }
+      });
 
       this.notify({
-        id: Number(textP.closest(".todo_container_items").dataset.id),
-        name: inputUp.value,
-        type: "update"
-      })
-
-      inputUp.remove()
-      inputBtn.remove()
-      this.textContentInput.textContent = inputUp.value;
-      inputUp.value = ''
+        id: Number(updateBtn.closest(".todo_container_items").dataset.id),
+        name: inputUpdateOnTodoList.value,
+        type: "update",
+      });
+      inputUpdateOnTodoList.remove();
+      updateBtnOnTodoList.remove();
     }
-      // console.log(this.updateInput.value)
-  }
+  };
 
   initialRender() {
     this.input = document.createElement("input");
@@ -121,7 +123,7 @@ export default class TodoView {
     this.buttonAddItem.addEventListener("click", this.handleTodoAdd);
     listItem.addEventListener("click", this.handleTodoRemove);
     listItem.addEventListener("click", this.handleTodoChecked);
-    listItem.addEventListener("click", this.handleTodoUpdateName)
+    listItem.addEventListener("click", this.handleTodoUpdateName);
   }
 
   render() {
@@ -145,7 +147,7 @@ export default class TodoView {
       this.li.append(this.checked);
       this.li.append(this.textContentInput);
       this.li.append(this.buttonRemoveItem);
+      // this.todoList.append(this.li);
     });
   }
-
 }

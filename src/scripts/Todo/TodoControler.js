@@ -21,7 +21,7 @@ export default class TodoControler {
              }
              
              if(type === 'update') {
-                 debugger
+                //  debugger
                  this.model.updateTodo(id, name)
                 //  this.model.addTodo(new TodoItem(name))
                 //  this.model.deleteTodoById(id);
